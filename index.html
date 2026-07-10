@@ -1,0 +1,519 @@
+<title>DON · 팀 스킬업</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#F6F7F6; --panel:#FFFFFF; --card:#FFFFFF;
+    --line:#E7EAE8; --line-2:#DCE1DE;
+    --ink:#151A17; --ink-2:#5C665F; --ink-3:#98A19A;
+    --acc:#0E9E6E; --acc-2:#12B77F; --acc-soft:#E6F6EE; --acc-ink:#0A7A54;
+    --gold:#9A7B0A; --gold-soft:#F5EEDA; --red:#D14343;
+    --t-dev:#7C5CE0; --t-plan:#2E7BE0; --t-impl:#0E9E6E; --t-doc:#C08A1E;
+    --c-code:#2E7BE0; --c-company:#7C5CE0; --c-proposal:#C08A1E; --c-asset:#0E9E6E; --c-archive:#9AA39C;
+    --shadow:0 1px 2px rgba(20,30,25,.04),0 1px 3px rgba(20,30,25,.05);
+    --shadow-md:0 8px 26px rgba(20,40,30,.10);
+    --shadow-lg:-24px 0 60px rgba(20,40,30,.14);
+    --mono:"SF Mono","Cascadia Code","JetBrains Mono",Consolas,"D2Coding",ui-monospace,monospace;
+    --kr:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    --r:14px;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#0F1412; --panel:#141A17; --card:#161D19; --line:#232B27; --line-2:#2C352F;
+    --ink:#E7EEE9; --ink-2:#9BA79F; --ink-3:#6A756E;
+    --acc:#3FD39A; --acc-2:#54DDA9; --acc-soft:#12271E; --acc-ink:#7EE7BF;
+    --gold:#E0B650; --gold-soft:#2C2611; --red:#F0736F;
+    --t-dev:#A98BFF; --t-plan:#5BA0F5; --t-impl:#3FD39A; --t-doc:#E0B650;
+    --c-code:#5BA0F5; --c-company:#A98BFF; --c-proposal:#E0B650; --c-asset:#3FD39A; --c-archive:#6A756E;
+    --shadow:0 1px 2px rgba(0,0,0,.4); --shadow-md:0 10px 30px rgba(0,0,0,.5); --shadow-lg:-24px 0 60px rgba(0,0,0,.6);
+  }}
+  :root[data-theme="light"]{--bg:#F6F7F6;--panel:#FFF;--card:#FFF;--line:#E7EAE8;--line-2:#DCE1DE;--ink:#151A17;--ink-2:#5C665F;--ink-3:#98A19A;--acc:#0E9E6E;--acc-2:#12B77F;--acc-soft:#E6F6EE;--acc-ink:#0A7A54;--gold:#9A7B0A;--gold-soft:#F5EEDA;--red:#D14343;--t-dev:#7C5CE0;--t-plan:#2E7BE0;--t-impl:#0E9E6E;--t-doc:#C08A1E;--c-code:#2E7BE0;--c-company:#7C5CE0;--c-proposal:#C08A1E;--c-asset:#0E9E6E;--c-archive:#9AA39C;--shadow:0 1px 2px rgba(20,30,25,.04),0 1px 3px rgba(20,30,25,.05);--shadow-md:0 8px 26px rgba(20,40,30,.10);--shadow-lg:-24px 0 60px rgba(20,40,30,.14);}
+  :root[data-theme="dark"]{--bg:#0F1412;--panel:#141A17;--card:#161D19;--line:#232B27;--line-2:#2C352F;--ink:#E7EEE9;--ink-2:#9BA79F;--ink-3:#6A756E;--acc:#3FD39A;--acc-2:#54DDA9;--acc-soft:#12271E;--acc-ink:#7EE7BF;--gold:#E0B650;--gold-soft:#2C2611;--red:#F0736F;--t-dev:#A98BFF;--t-plan:#5BA0F5;--t-impl:#3FD39A;--t-doc:#E0B650;--c-code:#5BA0F5;--c-company:#A98BFF;--c-proposal:#E0B650;--c-asset:#3FD39A;--c-archive:#6A756E;--shadow:0 1px 2px rgba(0,0,0,.4);--shadow-md:0 10px 30px rgba(0,0,0,.5);--shadow-lg:-24px 0 60px rgba(0,0,0,.6);}
+
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;font-family:var(--kr);-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono)}
+  a{color:inherit;text-decoration:none} button{font-family:inherit}
+
+  /* top bar */
+  .top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:13px}
+  .logo{width:29px;height:29px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:15px;background:linear-gradient(135deg,var(--acc),var(--acc-2));box-shadow:0 4px 12px color-mix(in srgb,var(--acc) 40%,transparent);flex:none}
+  .wm{font-size:16px;font-weight:800;letter-spacing:.5px}
+  .wm b{color:var(--acc)}
+  .sys{color:var(--ink-3);font-size:12px;font-family:var(--mono)}
+  .status{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-2);font-family:var(--mono);border:1px solid var(--line-2);border-radius:20px;padding:5px 11px}
+  .blip{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+  .theme-btn{border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);width:30px;height:30px;border-radius:8px;cursor:pointer;display:grid;place-items:center}
+  .theme-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .nav{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;gap:2px;flex-wrap:wrap}
+  .tab{background:transparent;border:0;border-bottom:2px solid transparent;color:var(--ink-3);font-size:13.5px;font-weight:700;padding:11px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.13s}
+  .tab .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+  .tab:hover{color:var(--ink-2)}
+  .tab.active{color:var(--acc)} .tab.active{border-bottom-color:var(--acc)} .tab.active .n{color:var(--acc)}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 28px 90px}
+  .view{display:none} .view.active{display:block;animation:fade .22s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+  .crumb{font-family:var(--mono);color:var(--ink-3);font-size:12px;margin-bottom:12px}
+  .crumb b{color:var(--ink-2);font-weight:600} .crumb .tl{color:var(--acc)}
+  h1.h{margin:0 0 6px;font-size:25px;font-weight:800;letter-spacing:-.5px}
+  p.sub{margin:0 0 26px;color:var(--ink-2);font-size:14.5px;max-width:70ch}
+  .kbd{font-family:var(--mono);font-size:12px;background:var(--acc-soft);color:var(--acc-ink);padding:1px 6px;border-radius:5px}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:6px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+  .kpi .k{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.4px;text-transform:uppercase}
+  .kpi .num{font-size:31px;font-weight:800;letter-spacing:-1px;margin-top:5px;font-variant-numeric:tabular-nums}
+  .kpi .num small{font-size:14px;color:var(--ink-3);margin-left:3px;font-weight:600}
+  .kpi .num .u{color:var(--acc)}
+
+  .sect{display:flex;align-items:center;gap:10px;margin:30px 0 14px}
+  .sect .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .sect b{font-size:14px;font-weight:800} .sect .meta{color:var(--ink-3);font-size:12px;font-family:var(--mono)}
+  .sect .ln{flex:1;height:1px;background:var(--line)} .sect .c{color:var(--ink-3);font-size:11.5px;font-family:var(--mono)}
+
+  .links{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .lk{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 20px;box-shadow:var(--shadow);cursor:pointer;width:100%;text-align:left;transition:.14s}
+  .lk:hover{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));box-shadow:var(--shadow-md);transform:translateY(-2px)}
+  .lk .ic{width:38px;height:38px;border-radius:10px;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;font-family:var(--mono);font-size:15px;flex:none}
+  .lk h4{margin:0;font-size:14.5px;font-weight:800} .lk .cmd{font-family:var(--mono);font-size:11px;color:var(--ink-3)} .lk p{margin:2px 0 0;color:var(--ink-2);font-size:12.5px}
+  .lk .go{margin-left:auto;color:var(--acc);font-weight:800}
+
+  .note{margin-top:16px;display:flex;gap:11px;padding:14px 17px;border-radius:12px;background:var(--acc-soft);border:1px solid color-mix(in srgb,var(--acc) 24%,transparent)}
+  .note .ni{color:var(--acc);font-weight:800;font-family:var(--mono)} .note p{margin:0;font-size:13px;color:var(--ink)} .note b{color:var(--acc-ink)}
+
+  /* projects */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+  .p{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);transition:.14s}
+  .p:hover{border-color:color-mix(in srgb,var(--acc) 40%,var(--line));box-shadow:var(--shadow-md);transform:translateY(-2px)}
+  .p .top{display:flex;align-items:flex-start;gap:11px}
+  .p .catbar{width:3px;align-self:stretch;border-radius:3px;flex:none}
+  .p .nm{font-weight:800;font-size:14.5px} .p .path{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .p .desc{font-size:12.5px;color:var(--ink-2)} .p .badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:5px}
+  .bd{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--acc-soft);color:var(--acc-ink)}
+  .bd.g{background:var(--line);color:var(--ink-3)} .bd.bad{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red)}
+  .p .open{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--acc);font-weight:700}
+
+  /* agent card */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .ag{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);cursor:pointer;transition:.14s}
+  .ag:hover{border-color:color-mix(in srgb,var(--acc) 42%,var(--line));box-shadow:var(--shadow-md);transform:translateY(-2px)}
+  .ag .hd{display:flex;align-items:center;gap:12px}
+  .av{width:40px;height:40px;border-radius:11px;flex:none;display:grid;place-items:center;font-weight:800;font-size:15px}
+  .ag .id{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .ag .ko{font-weight:800;font-size:15px;display:flex;align-items:center;gap:7px}
+  .ag .rl{color:var(--ink-2);font-size:12px;margin-top:1px}
+  .ag .ver{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .meter{display:flex;align-items:center;gap:10px;margin:13px 0}
+  .mtrack{flex:1;height:7px;border-radius:5px;background:var(--line);overflow:hidden}
+  .mtrack i{display:block;height:100%;border-radius:5px}
+  .meter .ml{font-family:var(--mono);font-size:11px;color:var(--ink-3);white-space:nowrap}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ch{font-family:var(--mono);font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--line);color:var(--ink-3)}
+  .ch.l2{background:var(--gold-soft);color:var(--gold)} .ch.gate{background:var(--acc-soft);color:var(--acc-ink)}
+  .lead{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--acc-ink);background:var(--acc-soft);padding:1px 5px;border-radius:4px}
+  .ag .open{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--acc);font-weight:700}
+
+  /* growth */
+  .gagg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grow{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 17px;box-shadow:var(--shadow);margin-bottom:12px}
+  .grow .t{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+  .grow .t b{font-size:13.5px} .grow .amt{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+  .grow .gm{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .lift{font-family:var(--mono);font-size:10px;color:var(--acc-ink);background:var(--acc-soft);border-radius:5px;padding:2px 6px}
+  .glist{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .glist li{position:relative;padding-left:17px;font-size:12.5px;color:var(--ink-2)}
+  .glist li::before{content:"›";position:absolute;left:3px;color:var(--acc);font-family:var(--mono);font-weight:700}
+  .segbar{display:flex;gap:3px;margin:2px 0 4px} .segbar i{flex:1;height:8px;border-radius:2px}
+
+  /* knowledge */
+  .klist{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .kdoc{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow);transition:.14s}
+  .kdoc.click{cursor:pointer} .kdoc.click:hover{border-color:color-mix(in srgb,var(--acc) 40%,var(--line));box-shadow:var(--shadow-md)}
+  .kdoc .ki{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;font-weight:800;font-size:13px;font-family:var(--mono)}
+  .kdoc h4{margin:0 0 2px;font-size:13.5px;font-weight:800} .kdoc p{margin:0;font-size:12px;color:var(--ink-2)}
+  .kdoc .kp{margin-top:5px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+  .info{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+  .info h3{margin:0 0 9px;font-size:13.5px;font-weight:800}
+  .md-mini ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .md-mini li{position:relative;padding-left:17px;font-size:12.5px;color:var(--ink-2)} .md-mini li::before{content:"›";position:absolute;left:3px;color:var(--acc);font-family:var(--mono);font-weight:700}
+  .md-mini code{font-family:var(--mono);font-size:11px;color:var(--acc-ink);background:var(--acc-soft);padding:1px 5px;border-radius:4px} .md-mini strong{color:var(--ink)}
+
+  /* slide-over */
+  .scrim{position:fixed;inset:0;background:rgba(15,25,20,.4);opacity:0;pointer-events:none;transition:.25s;z-index:40;backdrop-filter:blur(2px)}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .panel{position:fixed;top:0;right:0;height:100vh;width:min(720px,95vw);background:var(--panel);box-shadow:var(--shadow-lg);z-index:50;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.15,1);display:flex;flex-direction:column;border-top:3px solid var(--acc)}
+  .panel.on{transform:none}
+  .p-head{padding:22px 26px 0;position:relative}
+  .p-close{position:absolute;top:16px;right:18px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);cursor:pointer}
+  .p-id{display:flex;align-items:center;gap:14px}
+  .p-av{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none}
+  .p-id .nm{font-size:19px;font-weight:800} .p-id .rl{color:var(--ink-2);font-size:13px}
+  .p-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px}
+  .p-desc{margin:14px 0 0;color:var(--ink-2);font-size:13.5px;line-height:1.66}
+  .tabs{display:flex;gap:3px;padding:16px 26px 0;border-bottom:1px solid var(--line)}
+  .ptab{background:transparent;border:0;border-bottom:2px solid transparent;color:var(--ink-3);font-size:13px;font-weight:700;padding:9px 12px;cursor:pointer;margin-bottom:-1px;display:flex;gap:6px;align-items:center}
+  .ptab.active{color:var(--acc);border-bottom-color:var(--acc)}
+  .ptab .n{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+  .p-body{flex:1;overflow-y:auto;padding:20px 26px 60px}
+  .tpane{display:none} .tpane.active{display:block}
+  .cap-h{font-size:12.5px;color:var(--ink-3);margin:0 0 11px;font-family:var(--mono)} .cap-h b{color:var(--ink);font-family:var(--kr);font-weight:800}
+  .cap{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:8px;font-size:13px}
+  .cap .ck{color:var(--acc);font-weight:800;flex:none}
+  .skill{margin-bottom:14px}
+  .skill .sl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .skill .sn{font-size:13px;font-weight:700} .skill .lvn{font-family:var(--mono);font-size:11.5px;color:var(--acc);font-weight:700}
+  .segs{display:flex;gap:5px} .segs i{flex:1;height:7px;border-radius:4px;background:var(--line)} .segs i.on{background:var(--acc)}
+  .grid-sk{display:grid;grid-template-columns:1fr 1fr;gap:8px 26px;margin-top:4px}
+  .ht{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:12px}
+  .hist{position:relative;padding-left:19px}
+  .hist::before{content:"";position:absolute;left:5px;top:5px;bottom:5px;width:2px;background:var(--line)}
+  .hi{position:relative;font-size:12.5px;color:var(--ink-2);margin-bottom:9px}
+  .hi::before{content:"";position:absolute;left:-14px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--acc-soft);border:2px solid var(--acc)}
+  .md h2{font-size:16px;font-weight:800;margin:18px 0 8px} .md h2:first-child{margin-top:0}
+  .md p{margin:7px 0;font-size:13px;color:var(--ink-2);line-height:1.7}
+  .md ul{margin:6px 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .md li{position:relative;padding-left:17px;font-size:12.8px;color:var(--ink-2);line-height:1.65} .md li::before{content:"–";position:absolute;left:2px;color:var(--acc);font-family:var(--mono)}
+  .md code{font-family:var(--mono);font-size:11.5px;color:var(--acc-ink);background:var(--acc-soft);padding:1px 5px;border-radius:5px} .md strong{color:var(--ink);font-weight:700} .md em{color:var(--ink-3);font-style:normal;font-size:11px}
+  .p-file{margin-top:20px;display:inline-flex;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--acc);border:1px solid color-mix(in srgb,var(--acc) 40%,var(--line));border-radius:8px;padding:8px 12px}
+
+  @media (max-width:860px){
+    .bar,.nav,.wrap{padding-left:16px;padding-right:16px}
+    .sys{display:none}
+    .kpis{grid-template-columns:1fr 1fr} .links,.grid2,.gagg,.klist{grid-template-columns:1fr}
+  }
+</style>
+
+<header class="top">
+  <div class="bar">
+    <span class="logo">◈</span><span class="wm"><b>DON</b></span><span class="sys">// 팀 스킬업</span>
+    <span class="status"><span class="blip"></span> 7 agents · L2:6 · +39</span>
+    <button class="theme-btn" id="themeToggle" title="테마" aria-label="테마 전환">
+      <svg id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>
+    </button>
+  </div>
+  <nav class="nav" id="nav">
+    <button class="tab active" data-v="home"><span class="n">01</span> 개요</button>
+    <button class="tab" data-v="projects"><span class="n">02</span> 프로젝트</button>
+    <button class="tab" data-v="team"><span class="n">03</span> 로스터</button>
+    <button class="tab" data-v="growth"><span class="n">04</span> 성장</button>
+    <button class="tab" data-v="knowledge"><span class="n">05</span> 지식·플레이북</button>
+  </nav>
+</header>
+
+<main class="wrap">
+  <!-- HOME -->
+  <section class="view active" id="v-home">
+    <div class="crumb"><span class="tl">~</span>/<b>overview</b></div>
+    <h1 class="h">가상 사무실 · 팀 스킬업</h1>
+    <p class="sub">흩어진 폴더를 프로젝트로 관리하고, 개발 중심 7인 팀이 매 회고마다 스킬을 쌓아 <b>레벨업</b>하는 되먹임을 한곳에서 봅니다.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="k">projects</div><div class="num">14<small>개</small></div></div>
+      <div class="kpi"><div class="k">agents</div><div class="num">7<small>명</small></div></div>
+      <div class="kpi"><div class="k">skilled · L2</div><div class="num">6<small>명</small></div></div>
+      <div class="kpi"><div class="k">learned</div><div class="num"><span class="u">+39</span><small>건</small></div></div>
+    </div>
+    <div class="sect"><span class="dot" style="background:var(--acc)"></span><b>바로가기</b><span class="ln"></span></div>
+    <div class="links">
+      <button class="lk" data-goto="team"><span class="ic">▸</span><div><h4>로스터 <span class="cmd">team.roster</span></h4><p>7인 팀 · 스킬레벨 · 역량 · MD 플레이북</p></div><span class="go">→</span></button>
+      <button class="lk" data-goto="growth"><span class="ic">▸</span><div><h4>성장 <span class="cmd">team.growth</span></h4><p>회고 되먹임으로 쌓인 스킬업 현황</p></div><span class="go">→</span></button>
+      <button class="lk" data-goto="projects"><span class="ic">▸</span><div><h4>프로젝트 <span class="cmd">fs.projects</span></h4><p>카테고리별 프로젝트 + CLAUDE.md</p></div><span class="go">→</span></button>
+      <button class="lk" data-goto="knowledge"><span class="ic">▸</span><div><h4>지식·플레이북 <span class="cmd">kb.playbooks</span></h4><p>공통 서랍 · 역할별 스킬 노트 · 커맨드</p></div><span class="go">→</span></button>
+    </div>
+    <div class="note"><span class="ni">[i]</span><p><b>스킬업 되먹임 —</b> 각 에이전트가 작업 시작 시 자기 <span class="kbd">roles/*.md</span>를 먼저 읽고, <span class="kbd">/회고</span>로 새 교훈을 쌓습니다. 돌릴수록 팀이 실제로 더 잘합니다.</p></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="view" id="v-projects">
+    <div class="crumb"><span class="tl">~</span>/<b>projects</b></div>
+    <h1 class="h">폴더별 프로젝트</h1>
+    <p class="sub">카테고리로 묶고 폴더마다 <span class="kbd">CLAUDE.md</span>를 붙였습니다. 카드의 <b>open →</b>으로 각 프로젝트 정보를 확인하세요.</p>
+    <div id="projRoot"></div>
+    <div class="note"><span class="ni">[✓]</span><p><b>완료 —</b> 9개 폴더에 CLAUDE.md 신규 생성, 2개(<span class="kbd">my-confirm</span>·<span class="kbd">LocalWork/lms</span>)는 기존 유지.</p></div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="view" id="v-team">
+    <div class="crumb"><span class="tl">~</span>/<b>team</b>/roster</div>
+    <h1 class="h">글로벌 개발 팀 · 스킬업</h1>
+    <p class="sub">역할별 에이전트 로스터. 카드를 누르면 <b>역량·스킬·스킬업 이력·MD문서(플레이북)</b>가 열립니다. 매 <span class="kbd">/회고</span>마다 플레이북이 두꺼워져 레벨이 오릅니다.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="k">agents</div><div class="num">7<small>명</small></div></div>
+      <div class="kpi"><div class="k">L2 skilled</div><div class="num">6<small>명</small></div></div>
+      <div class="kpi"><div class="k">learned</div><div class="num"><span class="u">+39</span><small>건</small></div></div>
+      <div class="kpi"><div class="k">teams</div><div class="num">4<small>조</small></div></div>
+    </div>
+    <div id="rosterRoot"></div>
+  </section>
+
+  <!-- GROWTH -->
+  <section class="view" id="v-growth">
+    <div class="crumb"><span class="tl">~</span>/<b>team</b>/growth</div>
+    <h1 class="h">성장</h1>
+    <p class="sub">이번 학습 사이클에 <b>LocalWork</b>(lms·ndev·onschool)의 기존 스킬·에이전트에서 전이 가능한 노하우를 흡수했습니다. 인원별 축적 건수와 승급 내역입니다.</p>
+    <div class="sect"><span class="dot" style="background:var(--acc)"></span><b>팀별 집계</b><span class="ln"></span><span class="c">cycle 2026-07-03 · +39</span></div>
+    <div class="gagg" id="teamAgg"></div>
+    <div class="sect"><span class="dot" style="background:var(--acc)"></span><b>실투입 인원 — 축적 상세</b><span class="ln"></span></div>
+    <div id="growthRoot"></div>
+  </section>
+
+  <!-- KNOWLEDGE -->
+  <section class="view" id="v-knowledge">
+    <div class="crumb"><span class="tl">~</span>/<b>.claude</b>/knowledge</div>
+    <h1 class="h">지식 파이프라인 &amp; 플레이북</h1>
+    <p class="sub">여러 역할이 공유하는 공통 노하우는 <span class="kbd">~/.claude/knowledge/</span>에, 역할 특화 노하우는 각자의 <span class="kbd">roles/*.md</span> 플레이북에 쌓입니다.</p>
+    <div class="sect"><span class="dot" style="background:var(--t-plan)"></span><b>공통 지식</b><span class="ln"></span><span class="c">knowledge/</span></div>
+    <div class="klist" id="knowRoot"></div>
+    <div class="sect"><span class="dot" style="background:var(--t-impl)"></span><b>역할별 플레이북</b><span class="ln"></span><span class="c">roles/ · 클릭→MD</span></div>
+    <div class="klist" id="playRoot"></div>
+    <div class="gagg" style="margin-top:16px">
+      <div class="info"><h3>되먹임 4단계</h3><div class="md-mini"><ul>
+        <li><strong>일 시작</strong> — 에이전트가 자기 <code>roles/&lt;이름&gt;.md</code>를 먼저 읽는다.</li>
+        <li><strong>작업</strong> — 그 교훈을 이번 작업에 적용한다.</li>
+        <li><strong>회고</strong> — <code>/회고</code>로 새 교훈을 역할별 플레이북에 분배·축적.</li>
+        <li><strong>다음</strong> — 두꺼워진 플레이북을 다시 읽어 <strong>실제로 더 잘한다</strong>.</li>
+      </ul></div></div>
+      <div class="info"><h3>커맨드</h3><div class="md-mini"><ul>
+        <li><code>/회고</code> — 교훈을 역할 플레이북·공통 서랍·프로젝트 CLAUDE.md로 승격</li>
+        <li><code>/팀현황</code> — 팀원별 스킬 축적 현황 점검</li>
+        <li><code>/새프로젝트</code> — 표준 스캐폴딩으로 새 폴더 초기화</li>
+      </ul></div></div>
+    </div>
+    <div class="note"><span class="ni">[✓]</span><p><b>초기 시딩 —</b> <span class="kbd">LocalWork</span>(lms 스킬 18·ndev 에이전트 6·onschool 3)의 전이 가능한 노하우를 6명 플레이북에 흡수. LocalWork는 읽기 학습 소스일 뿐 수정하지 않습니다.</p></div>
+  </section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" aria-hidden="true">
+  <div class="p-head">
+    <button class="p-close" id="pClose">✕</button>
+    <div class="p-id"><span class="p-av" id="pAv"></span><div><div class="nm" id="pNm"></div><div class="rl" id="pRl"></div></div></div>
+    <div class="p-chips" id="pChips"></div>
+    <p class="p-desc" id="pDesc"></p>
+  </div>
+  <div class="tabs">
+    <button class="ptab active" data-t="cap">역량·스킬</button>
+    <button class="ptab" data-t="hist">스킬업 이력 <span class="n" id="tnHist"></span></button>
+    <button class="ptab" data-t="md">MD 문서</button>
+  </div>
+  <div class="p-body">
+    <div class="tpane active" id="tp-cap"></div>
+    <div class="tpane" id="tp-hist"></div>
+    <div class="tpane" id="tp-md"></div>
+  </div>
+</aside>
+
+<script>
+const CATS={code:{c:"var(--c-code)",label:"독립 코드 프로젝트",tag:"code"},company:{c:"var(--c-company)",label:"회사 작업본 (LocalWork/)",tag:"company"},proposal:{c:"var(--c-proposal)",label:"제안·입찰",tag:"proposal"},asset:{c:"var(--c-asset)",label:"자산·참고",tag:"asset"},archive:{c:"var(--c-archive)",label:"정리 대상",tag:"archive"}};
+const P=[
+ {cat:"code",nm:"lifestyle",path:"lifestyle/",desc:"생기부 관리 AI 웹앱 (배포됨)",md:"new",git:true,link:"lifestyle/CLAUDE.md"},
+ {cat:"code",nm:"info_daebak",path:"info_daebak/",desc:"공공 LMS 예산 레이더(영업툴)",md:"new",git:false,link:"info_daebak/CLAUDE.md"},
+ {cat:"code",nm:"my-confirm",path:"my-confirm/",desc:"맑은프레임워크 JSP 템플릿",md:"keep",git:true,link:"my-confirm/CLAUDE.md"},
+ {cat:"company",nm:"LocalWork",path:"LocalWork/",desc:"회사 실서비스 작업본 (ndev·onschool·lms…)",md:"new",git:true,link:"LocalWork/CLAUDE.md"},
+ {cat:"proposal",nm:"chulpan",path:"chulpan/",desc:"국방출판지원단 제안",md:"new",link:"chulpan/CLAUDE.md"},
+ {cat:"proposal",nm:"kitago",path:"kitago/",desc:"한국무역협회 무역아카데미 LMS 제안+견적",md:"new",link:"kitago/CLAUDE.md"},
+ {cat:"proposal",nm:"milestone",path:"milestone/",desc:"무역협회 마일스톤(SK AX)",md:"new",link:"milestone/CLAUDE.md"},
+ {cat:"proposal",nm:"edu-refer",path:"edu-refer/",desc:"교육청·교육감 AI교육 제안",md:"new",link:"edu-refer/CLAUDE.md"},
+ {cat:"asset",nm:"work guide",path:"work guide/",desc:"맑은소프트 스타일가이드(팀 공통)",md:"new",link:"work%20guide/CLAUDE.md"},
+ {cat:"asset",nm:"수료증디자인",path:"수료증디자인/",desc:"2026 수료증 HTML·이미지",md:"new",link:"수료증디자인/CLAUDE.md"},
+ {cat:"archive",nm:"total-search",path:"total-search/",desc:".claude만 있고 비어있음",md:"none"},
+ {cat:"archive",nm:"ndev_render",path:"ndev_render/",desc:"stub html 2개",md:"none"},
+ {cat:"archive",nm:"tools",path:"tools/",desc:"nodejs 런타임 잔재",md:"none"},
+ {cat:"archive",nm:"DataGripProjects",path:"DataGripProjects/",desc:"DataGrip DB 설정",md:"none"},
+];
+const TEAMS={dev:{c:"var(--t-dev)",label:"총괄"},plan:{c:"var(--t-plan)",label:"기획·설계"},impl:{c:"var(--t-impl)",label:"구현·검토"},doc:{c:"var(--t-doc)",label:"디자인·제안"}};
+const A=[
+ {id:"dev",ko:"개발이",team:"dev",role:"소프트웨어 개발 총괄 (PM)",lead:true,lv:2,ver:"1.2.0",gate:true,color:"var(--t-dev)",
+  desc:"코딩 요청의 단일 진입점. 요청을 분석해 설계는 아키텍트, 구현은 코더, 검토는 리뷰어에게 분배하고 결과를 취합·검증해 보고한다.",
+  caps:["착수 전 CLAUDE.md → knowledge → 팀원 플레이북 순으로 맥락을 잡는다","독립 작업은 코더에게 병렬 위임하고 '기존 스타일 먼저 파악'을 매번 명시한다","되돌리기 어려운/외부로 나가는 작업은 먼저 확인한다"],
+  skills:[["작업 분배·병렬화",4],["리뉴얼 오케스트레이션",4],["품질 취합·검증",4],["맥락 파악",5]],
+  hist:[["큰 전환/리뉴얼은 스캐폴드→화면유형별 변환→읽기전용 QA로 분업. 서브에이전트는 서브를 못 띄우므로 오케스트레이션은 메인 레벨, QA→수정 루프를 갭 0까지 반복"]],learn:1},
+ {id:"planner",ko:"기획자",team:"plan",role:"요구사항·기능·정책·화면흐름 정의",lv:2,ver:"1.3.0",color:"var(--t-plan)",
+  desc:"코드·디자인을 만들기 전에 무엇을 왜 만드는지를 정의한다. RFP·요청을 기능 명세로 푼다.",
+  caps:["기존 코드/데이터 모델을 먼저 읽고 근거를 제시한 뒤 명세를 쓴다(추측 금지)","스키마·새 페이지 착수 전 필요 컬럼·페이지 유형을 사용자에게 먼저 확인한다","산출 명세는 다운스트림이 바로 착수 가능한 수준으로 구조화한다"],
+  skills:[["요구사항 구조화",5],["결정 최소화 설계",4],["명세 산출",4],["범위 관리",4]],
+  hist:[["복잡한 기존 화면을 그대로 나열하지 말고 '사용자가 실제로 결정할 것'만 남기고 나머지는 기본값/자동/숨김 — 무엇을 숨겼는지 명시"],["기존 모델을 먼저 읽고 근거 제시 후 명세(추측 금지, 재사용 우선)"]],learn:5},
+ {id:"architect",ko:"아키텍트",team:"plan",role:"설계·구조·트레이드오프 계획",lv:2,ver:"1.3.0",color:"var(--t-plan)",
+  desc:"코드를 바꾸지 않고 어떻게 만들지를 설계한다. 단계별 계획과 2~3개 안의 트레이드오프를 제시하고 하나를 추천한다.",
+  caps:["보호 리소스 최상단 권한 게이트, 라우팅은 고정경로를 path-param보다 먼저, auth/CORS는 init 중앙처리","공용 셸/init은 실패 시 하드코딩 폴백을 try/catch로 — 한 곳 오류가 전체를 죽이지 않게","기존 패턴을 최대한 재사용하고 새 의존성·구조는 이유를 밝힌다"],
+  skills:[["계층 캡슐화(DAO/서비스)",5],["전환형 리뉴얼 전략",4],["권한·라우팅 게이트",4],["트랜잭션·스키마 설계",4]],
+  hist:[["외부 HTTP·복잡 쿼리(JOIN)는 DAO/서비스 계층에 캡슐화, 뷰 직접 import 금지"],["전환형 리뉴얼: 원본 클론→신규 셸로 덮고→화면 단계별 컴포넌트 교체, 컨트롤러·DAO·DB 재사용"],["다중 테이블 쓰기는 트랜잭션으로, 스키마는 접두사·상태컬럼·FK+검색 인덱스 컨벤션"]],learn:5},
+ {id:"coder",ko:"코더",team:"impl",role:"설계에 따라 코드 작성/수정",lv:2,ver:"1.5.0",gate:true,color:"var(--t-impl)",
+  desc:"요구된 코드를 실제로 작성/수정한다. 프로젝트의 기존 스타일·컨벤션을 먼저 파악하고 그에 맞춰 짠다.",
+  caps:["구현 착수 전 DB 스키마(컬럼 타입·제약)를 먼저 읽고 그걸로 폼·검증·필드를 구동한다","모든 쿼리는 바인딩 파라미터 + 서버측 검증. 원문 입력으로 SQL을 조립하지 않는다","같은 클래스·구조 화면은 grep으로 모아 폭·간격·버튼·패딩을 한 번에 일괄 적용한다"],
+  skills:[["스키마 기반 구현",5],["안전한 쿼리·입력검증",5],["레거시 모더나이즈",4],["매핑 정합성(name↔필드↔컬럼)",4],["인증·업로드·i18n 패턴",4]],
+  hist:[["수정 페이지는 GET·POST 양쪽에서 기존 레코드 먼저 조회 후 현재값 주입 렌더"],["결과셋은 읽기 전 커서 이동 필수, 루프 안 누적/DAO 상태 매 루프 초기화"],["INSERT 시 시스템 필수 컬럼(생성일·상태·소유자) 누락 방지 — 원본 CRUD 먼저 읽기"],["레거시는 JS 강결합 로직 재작성 말고 구조·id·name 보존, 외형만 CSS로 덮기"],["AJAX/JSON은 리다이렉트·alert 금지, 표준 에러코드 어휘 통일"]],learn:17},
+ {id:"reviewer",ko:"리뷰어",team:"impl",role:"변경분 검토(버그·엣지·보안·중복)",lv:2,ver:"1.4.0",color:"var(--t-impl)",
+  desc:"변경된 코드를 비판적으로 검토한다. 직접 수정하지 않고 심각도 순으로 문제를 지적한다.",
+  caps:["변경 파일 전체에 정적 검증기를 병렬 선행한 뒤 규칙을 판단한다","품질 간소화 패스는 버그 정확성 리뷰와 분리해 수행한다","검증은 직접 로그인+렌더로 예외0·구조존재·누락0을 확인해 보고한다"],
+  skills:[["상습결함 체크리스트",5],["렌더/화면 QA",4],["정적검증 선행",4],["거짓경보 판별",3]],
+  hist:[["상습 결함: 커서 이동/루프 초기화 누락·불필요 null·파라미터 접근자 오용·POST 후 return 누락·로직에 HTML 혼재"],["grep -c는 줄 단위라 한 줄 다중매치를 놓침 — occurrence는 grep -o … | wc -l"],["검증도구 거짓경보 구분: file:// webfont 아이콘 깨짐, 세션 재로그인 등은 진짜 결함 아님"]],learn:8},
+ {id:"designer",ko:"디자이너",team:"doc",role:"스타일가이드 기반 화면 비주얼·시안",lv:2,ver:"1.2.0",color:"var(--t-doc)",
+  desc:"기획·요구사항을 보이는 화면으로 만든다. 회사 스타일가이드를 먼저 읽고 그에 맞춰 화면설계·시안·HTML/CSS를 작성한다.",
+  caps:["새 색/폰트/토큰을 발명하지 말고 기존 CSS 변수·클래스를 재사용, 부족분만 최소 추가","로직 코드는 작성하지 않고 순수 템플릿+CSS만 — 기대 변수/필드명을 개발자에게 넘긴다","라이트/다크·접근성과 빈·에러·로딩 상태까지 챙긴다"],
+  skills:[["토큰·컴포넌트 재사용",4],["관심사 분리",4],["관리자 목록 UX",3],["스타일가이드 준수",4]],
+  hist:[["새 토큰 발명 금지·기존 CSS 변수 재사용, 부족분만 전용 파일에 최소 추가"],["관리자 목록 화면 기본 UX 세트: 상태 필터·기간 검색·전체 건수·일괄 처리·상태 변경 버튼"]],learn:3},
+ {id:"proposal",ko:"제안",team:"doc",role:"제안서·발표·수행계획 (2순위 업무)",lv:1,ver:"1.0.0",color:"var(--t-doc)",
+  desc:"사업 제안·발표·수행계획 문서를 만든다. 회사 스타일가이드를 먼저 읽고 그 형식으로 만든다.",
+  caps:["문서 유형별 스타일가이드를 먼저 읽는다(제안서=가로, 발표=PT, 수행계획=A4)","발주처 평가 기준에 답한다 — 결론형 제목 → 핵심 메시지 하나 → 근거·수치(라벨·출처)","근거 없는 과장·허위 실적 금지. 불확실한 정보는 표시해 확인받는다"],
+  skills:[["스타일가이드 준수",3],["발주처 관점 서술",3],["근거·수치 라벨링",2]],
+  hist:[],learn:0},
+];
+const MD={
+ dev:`# 개발이(dev) 플레이북 — 스킬 노트\n\n"개발이"가 **매 작업 시작 시 가장 먼저 읽는** 개인 스킬 노트다. \`/회고\` 때마다 이 역할에 해당하는 교훈이 여기 쌓여 스펙이 오른다.\n\n## ✅ 검증된 습관\n- 착수 전 \`CLAUDE.md\` → \`~/.claude/knowledge/\` → 팀원 플레이북 순으로 맥락을 잡는다. _(seed)_\n- 독립적인 작업은 \`coder\`에게 병렬 위임하고, "기존 스타일 먼저 파악"을 매번 명시한다. _(seed)_\n\n## 🧩 분배·판단 노하우\n- 큰 전환/리뉴얼은 역할을 **스캐폴드 → 화면유형별 변환 → 읽기전용 QA**로 분업한다. 서브에이전트는 다시 서브를 못 띄우므로 **오케스트레이션은 메인(개발이) 레벨**에서 하고, QA→수정 루프를 갭이 0에 수렴할 때까지 반복한다.\n- 작은 수정은 코더에게 바로, 여러 단계가 얽히면 설계(architect)부터. _(seed)_`,
+ planner:`# 기획자(planner) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 기존 코드/데이터 모델을 먼저 읽고 근거를 제시한 뒤 명세를 쓴다(추측 금지, 재사용 우선).\n- 스키마·새 페이지 착수 전 필요한 컬럼과 페이지 유형을 사용자에게 먼저 확인하고, DDL/설계 확정 후 다음 단계를 제안한다.\n- 산출 명세는 다운스트림이 바로 착수 가능한 수준으로 구조화한다: 필드표·흐름·검증·예외·열린 질문.\n\n## 🧩 명세·화면흐름 노하우\n- 복잡한 기존 화면을 그대로 나열하지 말고 "사용자가 실제로 결정할 것"만 남기고 나머지는 기본값/자동/숨김으로 — 무엇을 숨겼는지는 명시한다.`,
+ architect:`# 아키텍트(architect) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 보호 리소스 최상단에 권한 게이트를 두고, 라우팅은 고정 경로를 path-parameter보다 먼저 등록하며 auth/CORS/preflight는 init에서 중앙 처리한다.\n- 공용 셸/init은 실패 시 하드코딩 폴백을 try/catch로 두어 한 곳의 오류가 전체를 죽이지 않게 한다.\n\n## ⚠️ 반복한 실수\n- 과설계 금지 — 요구된 범위에 맞는 가장 단순한 안을 우선한다. _(seed)_\n\n## 🧩 설계·구조 노하우\n- 외부 HTTP/라이브러리 호출과 복잡한 쿼리(JOIN)는 DAO/서비스 계층에 캡슐화하고 뷰 계층의 직접 import를 금지한다.\n- 전환형 리뉴얼: 원본을 통째 클론 → 신규 셸로 덮고 → 화면을 단계별로 컴포넌트 교체. 컨트롤러·DAO·DB는 재사용하고 뷰/자산만 새로 만든다.`,
+ coder:`# 코더(coder) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 구현 착수 전 DB 스키마(컬럼 타입·제약)를 먼저 읽고 그걸로 폼·검증·필드를 구동한다.\n- 모든 쿼리는 바인딩 파라미터 + 서버측 검증. 원문 입력으로 SQL을 조립하지 않는다.\n\n## ⚠️ 반복한 실수\n- 수정/편집 페이지는 GET·POST **양쪽**에서 기존 레코드를 먼저 조회한 뒤 현재값을 주입해 렌더한다.\n- 결과셋은 읽기 전 커서 이동 필수. 반복문 안에서는 매 루프 누적/DAO 상태를 초기화한다.\n- 폼 \`name\` ↔ 서버 필드 ↔ 데이터계층 컬럼의 **3자 매핑 일치**를 구현 후 대조 점검한다.\n\n## 🧩 구현 패턴·스니펫\n- AJAX/JSON: 리다이렉트·alert 금지, 표준 에러코드 어휘 통일.\n- 레거시: JS 강결합 로직은 재작성하지 말고 구조·id·name 보존, 외형만 CSS.\n\n## 📚 전용 스킬 포인터\n- CRUD·DAO·스키마·로그인·OAuth → \`LocalWork/lms/.claude/skills/\`\n- 레거시 관리자 리뉴얼 → \`LocalWork/ndev/.claude\` (admin-renewal)`,
+ reviewer:`# 리뷰어(reviewer) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 변경 파일 전체에 정적 검증기를 병렬로 선행한 뒤 규칙을 판단한다.\n- 검증은 사용자에게 떠넘기지 말고 직접 로그인+렌더로 예외 0·구조 존재·누락 0을 확인해 보고한다.\n\n## ⚠️ 반복한 실수\n- \`grep -c\`는 줄 단위라 한 줄 다중매치를 놓친다 — occurrence는 \`grep -o … | wc -l\`로 센다.\n- 검증 도구 거짓경보 구분: \`file://\` webfont 아이콘 깨짐, 세션 재로그인 등은 진짜 결함이 아니다.\n\n## 🧩 자주 놓치는 결함 (체크리스트)\n- **코드**: 커서 이동/루프 초기화 누락 · 파라미터 접근자 오용 · POST 후 return 누락 · 로직에 HTML 혼재.\n- **렌더**: 패딩 누락 · 버튼 정렬 어긋남 · iframe/폼 아래 빈 공간 · 미치환 변수/조건짝 불균형.`,
+ designer:`# 디자이너(designer) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 새 색/폰트/토큰을 발명하지 말고 기존 CSS 변수·클래스를 재사용하고, 부족분만 전용 파일에 최소 추가한다.\n- 로직 코드는 작성하지 않고 순수 템플릿 + CSS만 만들며, 기대 변수/필드명을 개발자에게 넘긴다(관심사 분리).\n\n## 🧩 레이아웃·컴포넌트 노하우\n- 관리자 목록 화면 기본 UX: 상태 필터 · 기간 검색 · 전체 건수 · 일괄 처리 · 상태 변경 버튼.`,
+ proposal:`# 제안(proposal) 플레이북 — 스킬 노트\n\n## ✅ 검증된 습관\n- 문서 유형별 스타일가이드를 먼저 읽는다: 제안서=가로, 발표=PT가로, 수행계획서=세로A4. _(seed)_\n- 발주처 평가 기준에 답한다 — 결론형 제목 → 핵심 메시지 하나 → 근거·수치. _(seed)_\n\n## 🧩 제안·발표 노하우\n- (아직 없음 — 회고로 채워진다)`,
+};
+const KNOW=[
+ {nm:"코딩_컨벤션.md",d:"선호하는 스타일·네이밍·구조 규칙",c:"var(--t-plan)"},
+ {nm:"자주쓰는_패턴.md",d:"반복되는 구현 패턴·스니펫·선택",c:"var(--t-impl)"},
+ {nm:"트러블슈팅.md",d:"겪었던 문제와 해결책(재발 방지)",c:"var(--t-doc)"},
+ {nm:"제안서_패턴.md",d:"제안서·발표자료 작성 노하우",c:"var(--t-dev)"},
+];
+
+const tint=c=>`color-mix(in srgb,${c} 16%,var(--card))`;
+
+/* projects */
+(function(){
+  const root=document.getElementById("projRoot");
+  Object.keys(CATS).forEach(k=>{
+    const items=P.filter(x=>x.cat===k);if(!items.length)return;
+    const cat=CATS[k],sec=document.createElement("div");
+    sec.innerHTML=`<div class="sect"><span class="dot" style="background:${cat.c}"></span><b>${cat.label}</b><span class="ln"></span><span class="c">${cat.tag} · ${items.length}</span></div>`;
+    const g=document.createElement("div");g.className="grid";
+    items.forEach(x=>{
+      const el=document.createElement(x.link?"a":"div");el.className="p";if(x.link)el.href=x.link;
+      let bd=x.md==="new"?`<span class="bd">CLAUDE.md+</span>`:x.md==="keep"?`<span class="bd">CLAUDE.md</span>`:`<span class="bd g">untracked</span>`;
+      if(x.git===true)bd+=`<span class="bd">git</span>`;if(x.git===false)bd+=`<span class="bd bad">no-git</span>`;
+      el.innerHTML=`<div class="top"><span class="catbar" style="background:${cat.c}"></span><div style="flex:1"><div class="nm">${x.nm}</div><div class="path">${x.path}</div></div>${x.link?'<span class="open">open →</span>':''}</div><div class="desc">${x.desc}</div><div class="badges">${bd}</div>`;
+      g.appendChild(el);
+    });
+    sec.appendChild(g);root.appendChild(sec);
+  });
+})();
+
+/* team helpers */
+function lvChip(a){return a.lv>=2?`<span class="ch l2">L2·숙련</span>`:`<span class="ch">L1·입문</span>`}
+function chips(a){let h=lvChip(a)+`<span class="ch">v${a.ver}</span>`;if(a.gate)h+=`<span class="ch gate">gate</span>`;return h}
+
+(function(){
+  const root=document.getElementById("rosterRoot");
+  Object.keys(TEAMS).forEach(tk=>{
+    const items=A.filter(a=>a.team===tk);if(!items.length)return;
+    const sec=document.createElement("div");
+    sec.innerHTML=`<div class="sect"><span class="dot" style="background:${TEAMS[tk].c}"></span><b>${TEAMS[tk].label}</b><span class="ln"></span><span class="c">${items.length} agents</span></div>`;
+    const g=document.createElement("div");g.className="grid2";
+    items.forEach(a=>{
+      const pct=Math.max(8,Math.round(a.learn/17*100));
+      const b=document.createElement("button");b.className="ag";b.onclick=()=>openPanel(a.id);
+      b.innerHTML=`<div class="hd"><span class="av" style="background:${tint(a.color)};color:${a.color}">${a.ko[0]}</span>
+        <div><div class="ko">${a.ko}${a.lead?'<span class="lead">lead</span>':''}</div><div class="rl"><span class="id">${a.id}</span> · ${a.role}</div></div><span class="ver">v${a.ver}</span></div>
+        <div class="meter"><div class="mtrack"><i style="width:${pct}%;background:${a.color}"></i></div><span class="ml">+${a.learn} learned</span></div>
+        <div class="chips">${chips(a)}<span class="open">자세히 →</span></div>`;
+      g.appendChild(b);
+    });
+    sec.appendChild(g);root.appendChild(sec);
+  });
+})();
+
+/* growth */
+(function(){
+  const agg=document.getElementById("teamAgg");
+  Object.keys(TEAMS).forEach(tk=>{
+    const items=A.filter(a=>a.team===tk),learn=items.reduce((s,a)=>s+a.learn,0),l2=items.filter(a=>a.lv>=2).length;
+    const pct=Math.max(6,Math.round(learn/39*100)),promo=items.filter(a=>a.lv>=2&&a.learn>0).length;
+    const d=document.createElement("div");d.className="grow";
+    d.innerHTML=`<div class="t"><b>${TEAMS[tk].label}</b><div class="mtrack" style="flex:1"><i style="width:${pct}%;background:${TEAMS[tk].c}"></i></div><span class="amt">+${learn}</span></div>
+      <div class="gm"><span class="ch l2">L2 ${l2}</span>${promo?`<span class="lift">▲ 승급 ${promo}</span>`:''}</div>`;
+    agg.appendChild(d);
+  });
+  const root=document.getElementById("growthRoot");
+  A.filter(a=>a.learn>0).sort((x,y)=>y.learn-x.learn).forEach(a=>{
+    const d=document.createElement("div");d.className="grow";
+    const bars=Math.min(12,a.learn),seg=Array.from({length:12},(_,i)=>`<i style="background:${i<bars?a.color:'var(--line)'}"></i>`).join("");
+    d.innerHTML=`<div class="t"><span class="av" style="width:32px;height:32px;border-radius:9px;background:${tint(a.color)};color:${a.color};font-size:13px">${a.ko[0]}</span>
+      <div><div style="font-weight:800;font-size:14px">${a.ko}</div><div style="font-size:11.5px;color:var(--ink-3);font-family:var(--mono)">${a.id} · ${a.lv>=2?'L2 숙련':'L1 입문'}</div></div>
+      <span class="amt" style="margin-left:auto">+${a.learn}${a.lv>=2&&a.id!=='dev'?' · ▲L1→L2':''}</span></div>
+      <div class="segbar">${seg}</div>
+      <ul class="glist">${a.hist.map(h=>`<li>${h[0]}</li>`).join("")}</ul>`;
+    root.appendChild(d);
+  });
+})();
+
+/* knowledge */
+(function(){
+  const kr=document.getElementById("knowRoot");
+  KNOW.forEach(k=>{const el=document.createElement("div");el.className="kdoc";
+    el.innerHTML=`<span class="ki" style="background:${tint(k.c)};color:${k.c}">md</span><div><h4>${k.nm}</h4><p>${k.d}</p><div class="kp">~/.claude/knowledge/${k.nm}</div></div>`;kr.appendChild(el);});
+  const pr=document.getElementById("playRoot");
+  A.forEach(a=>{const el=document.createElement("button");el.className="kdoc click";el.style.textAlign="left";el.onclick=()=>openPanel(a.id,'md');
+    el.innerHTML=`<span class="ki" style="background:${tint(a.color)};color:${a.color}">${a.ko[0]}</span>
+      <div style="flex:1"><h4>roles/${a.id}.md</h4><p>${a.ko} · ${a.role}</p><div class="kp">✅ 역량 ${a.caps.length} · ✦ 학습 ${a.learn} · v${a.ver}</div></div>`;pr.appendChild(el);});
+})();
+
+/* markdown */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function inl(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/_\(([^)]+)\)_/g,'<em>($1)</em>')}
+function renderMd(src){const L=src.split("\n");let h="",ul=false;const cu=()=>{if(ul){h+="</ul>";ul=false}};
+  for(let ln of L){
+    if(/^## /.test(ln)){cu();h+=`<h2>${inl(ln.slice(3))}</h2>`}
+    else if(/^# /.test(ln)){cu();h+=`<h2>${inl(ln.slice(2))}</h2>`}
+    else if(/^- /.test(ln)){if(!ul){h+="<ul>";ul=true}h+=`<li>${inl(ln.slice(2))}</li>`}
+    else if(ln.trim()===""){cu()}else{cu();h+=`<p>${inl(ln)}</p>`}
+  }cu();return h;}
+
+/* panel */
+const panel=document.getElementById("panel"),scrim=document.getElementById("scrim");
+function openPanel(id,tab){
+  const a=A.find(x=>x.id===id);if(!a)return;
+  document.getElementById("pAv").outerHTML=`<span class="p-av" id="pAv" style="background:${tint(a.color)};color:${a.color}">${a.ko[0]}</span>`;
+  document.getElementById("pNm").textContent=a.ko;
+  document.getElementById("pRl").textContent=a.role;
+  document.getElementById("pChips").innerHTML=chips(a)+`<span class="ch">${a.id}</span>`;
+  document.getElementById("pDesc").textContent=a.desc;
+  document.getElementById("tnHist").textContent=a.hist.length;
+  const seg=lv=>`<div class="segs">${Array.from({length:5},(_,i)=>`<i class="${i<lv?'on':''}"></i>`).join("")}</div>`;
+  document.getElementById("tp-cap").innerHTML=
+    `<div class="cap-h">할 수 있는 <b>역량</b> · ${a.caps.length}</div>`+
+    a.caps.map(c=>`<div class="cap"><span class="ck">✓</span><span>${c}</span></div>`).join("")+
+    `<div class="cap-h" style="margin-top:20px">보유 <b>스킬</b> · ${a.skills.length}</div>`+
+    `<div class="grid-sk">`+a.skills.map(s=>`<div class="skill"><div class="sl"><span class="sn">${s[0]}</span><span class="lvn">Lv ${s[1]}</span></div>${seg(s[1])}</div>`).join("")+`</div>`;
+  document.getElementById("tp-hist").innerHTML=a.hist.length?
+    `<div class="ht">2026-07-03 · LocalWork 학습 사이클</div><div class="hist">`+
+      a.hist.map(h=>`<div class="hi">${h[0]}</div>`).join("")+
+      (a.lv>=2&&a.id!=='dev'?`<div class="hi" style="color:var(--acc-ink)">▲ 승급 확정: L1 → L2 (숙련)</div>`:'')+`</div>`
+    :`<p style="color:var(--ink-3);font-size:13px">아직 스킬업 이력이 없습니다. <span class="kbd">/회고</span>를 돌리면 이 역할의 교훈이 여기 쌓입니다.</p>`;
+  const isLocal=location.protocol==="file:";
+  const fileEl=isLocal?`<a class="p-file" href=".claude/knowledge/roles/${a.id}.md">📄 원본 열기 · roles/${a.id}.md</a>`:`<span class="p-file">📄 roles/${a.id}.md</span>`;
+  document.getElementById("tp-md").innerHTML=`<div class="md">${renderMd(MD[a.id])}</div>${fileEl}`;
+  setTab(tab||'cap');
+  panel.classList.add("on");scrim.classList.add("on");panel.setAttribute("aria-hidden","false");
+}
+function closePanel(){panel.classList.remove("on");scrim.classList.remove("on");panel.setAttribute("aria-hidden","true")}
+function setTab(t){document.querySelectorAll(".ptab").forEach(b=>b.classList.toggle("active",b.dataset.t===t));document.querySelectorAll(".tpane").forEach(p=>p.classList.toggle("active",p.id==="tp-"+t));document.querySelector(".p-body").scrollTop=0}
+document.querySelectorAll(".ptab").forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+document.getElementById("pClose").onclick=closePanel;scrim.onclick=closePanel;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePanel()});
+
+/* nav */
+const navs=document.querySelectorAll(".tab");
+function show(v){document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById("v-"+v).classList.add("active");navs.forEach(n=>n.classList.toggle("active",n.dataset.v===v));window.scrollTo({top:0})}
+navs.forEach(i=>i.onclick=()=>show(i.dataset.v));
+document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>show(b.dataset.goto));
+
+/* theme */
+const sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>';
+const moon='<path d="M21 12.8A8 8 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/>';
+function cur(){return document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function icon(){document.getElementById('themeIcon').innerHTML=cur()==='dark'?sun:moon}
+document.getElementById('themeToggle').onclick=()=>{document.documentElement.setAttribute('data-theme',cur()==='dark'?'light':'dark');icon()};
+icon();
+
+/* deep-link */
+function fromHash(){const raw=(location.hash||"").replace("#","");if(A.some(x=>x.id===raw))openPanel(raw);else if(raw.startsWith("view/")){const v=raw.slice(5);if(document.getElementById("v-"+v))show(v)}}
+window.addEventListener("hashchange",fromHash);fromHash();
+</script>
